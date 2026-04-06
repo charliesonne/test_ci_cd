@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: exam-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: exam-app
+  template:
+    metadata:
+      labels:
+        app: exam-app
+    spec:
+      containers:
+      - name: exam-app-container
+        image: ghcr.io/charliesonne/exam-app:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
