@@ -15,7 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 1. Собираем образ, но ПОКА НЕ отправляем (load: true оставляет его локально)
+      # 1. Собирается образ, но ПОКА НЕ отправляется (load: true оставляет его локально)
       - name: Build Docker image for testing
         uses: docker/build-push-action@v4
         with:
@@ -33,13 +33,13 @@ jobs:
           sleep 2
           
           echo "Проверяем доступность сайта..."
-          # Делаем запрос к нашему запущенному контейнеру
-          # grep ищет слово "Привет". Если не найдет - шаг завершится с ошибкой (exit code 1)
+          # Делаем запрос к запущенному контейнеру
+          # grep ищет слово. Если не найдет, шаг завершится с ошибкой (exit code 1)
           curl -s http://localhost:8080 | grep "Version 1.0"
           
           echo "Тест пройден успешно!"
 
-      # 3. Если тесты прошли, логинимся в реестр
+      # 3. Если тесты прошли, логиться в реестр
       - name: Log in to the Container registry
         uses: docker/login-action@v2
         with:
@@ -47,7 +47,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # 4. Собираем еще раз и уже ПУШИМ (из-за кэша это займет 1 секунду)
+      # 4. Собирается еще раз и уже пушится
       - name: Push Docker image
         uses: docker/build-push-action@v4
         with:
